@@ -1,0 +1,27 @@
+# IDE
+.vscode
+.idea
+*.iml
+
+# Models
+*.pb
+*.wxf
+*.params
+*.nb
+*.mx
+*.bin
+
+# RAR
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Picture
+*.jpg
+*.jpeg
+*.bmp
+*.png
+
+# Cache
+__pycache__
