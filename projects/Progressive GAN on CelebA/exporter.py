@@ -1,7 +1,6 @@
 import os
 import pickle
 
-import numpy as np
 import tensorflow as tf
 import wolframclient.serializers as wxf
 
@@ -27,9 +26,3 @@ npy.pop('G_paper/lod')
 npy.pop('G_paper_1/lod')
 
 wxf.export(npy, name + '.mx', target_format='wxf')
-
-# Generate latent vectors.
-latents = np.random.RandomState(1000).randn(1000, *Gs.input_shapes[0][1:])  # 1000 random latents
-latents = latents[[477, 56, 83, 887, 583, 391, 86, 340, 341, 415]]  # hand-picked top-10
-
-wxf.export(latents, 'latents.mx', target_format='wxf')
