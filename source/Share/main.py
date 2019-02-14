@@ -30,12 +30,14 @@ def load_check(model, dataset):
 print(load_check(None, None))
 print(load_check('SBGAN', None))
 
+generators = ['PGGAN', 'SBGAN']
 
-def getEvaluator():
+
+def get_evaluator():
     return 'a evaluator'
 
 
-def getModel():
+def get_model():
     return 'a model'
 
 
@@ -45,43 +47,67 @@ def Saver(data, path):
 
 class DeepFace:
     __loaded = False
-    __generator = False
-    __modifier = False
-
-    __Model = None
     __Evaluator = None
+    __recorder = []
 
-    __recorder = ()
-
-    def __init__(self, model, dataset, ctx=mx.cpu()):
-        (self.__Model, self.dataset) = load_check(model, dataset)
+    def __init__(self, model=None, dataset=None, ctx=mx.cpu()):
+        (self.model, self.dataset) = load_check(model, dataset)
         self.ctx = ctx
 
     def load(self, dir=default_dir()):
         # do loading
 
-        self.__Evaluator = getEvaluator(self.__Model)
-        self.__Model = getModel(self.__Model, self.dataset, dir=dir)
+        if self.model in generators:
+            return DeepFaceGenerator(
+                get_model(self.model, self.ctx),
+                get_evaluator(self.model)
+            )
+        else:
+            return DeepFaceModifier(
+                get_model(self.model, self.ctx),
+                get_evaluator(self.model)
+            )
 
         self.__loaded = True
+
+    def save(self, path):
+        Saver(self.__recorder, path)
+
+
+class DeepFaceGenerator(DeepFace):
+    __loaded = False
+    module = None
+    __Evaluator = None
+
+    __recorder = ()
+
+    def __init__(self, m, e):
+        self.module = m
+        self.__Evaluator = e
 
     def new(self, num=1):
         if not self.__loaded:
             raise ValueError("The model haven't loaded.")
         if not self.__generator:
             raise ValueError("The model is not a Generator!")
-        self.__recorder = self.__Evaluator(self.__Model, num)
+        self.__recorder = self.__Evaluator(self.module, num)
         return self.__recorder
+
+
+class DeepFaceModifier(DeepFace):
+    __loaded = False
+    module = None
+    __Evaluator = None
+    __recorder = ()
+
+    def __init__(self, m, e):
+        self.module = m
+        self.__Evaluator = e
 
     def infer(self, *args):
         if not self.__loaded:
             raise ValueError("The model haven't loaded.")
         if not self.__modifier:
             raise ValueError("The model is not a Modifier!")
-        self.__recorder = self.__Evaluator(self.__Model, args)
+        self.__recorder = self.__Evaluator(self.module, args)
         return self.__recorder
-
-    def save(self, path):
-        Saver(self.__recorder, path)
-
-
