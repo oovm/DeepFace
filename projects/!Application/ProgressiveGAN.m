@@ -1,6 +1,9 @@
 (* ::Package:: *)
 
 SetDirectory@NotebookDirectory[];
+$here = FileNameJoin[{DirectoryName[NotebookDirectory[]], "Progressive GAN on CelebA"}];
+
+
 << DeepMath`;
 
 
@@ -34,8 +37,10 @@ app = DeepMath`NetApplication@<|
 	"Date" -> DateString[],
 	"Handler" -> FunctionRepository`PGGANTrainedOnCelebA`handlerFunction,
 	"Models" -> <|
-		"Main" -> Import@"PGGAN trained on CelebA.WXF"
+		"Main" -> Import@FileNameJoin[{$here, "PGGAN trained on CelebA.WXF"}]
 	|>
 |>;
+
+
 byte = System`SerializeDefinitions[app];
 Export["PGGAN trained on CelebA.app", Unevaluated[BinaryDeserialize@byte], "WXF"]

@@ -48,7 +48,7 @@ def Saver(data, path):
 class DeepFace:
     __loaded = False
     __Evaluator = None
-    __recorder = []
+    recorder = []
 
     def __init__(self, model=None, dataset=None, ctx=mx.cpu()):
         (self.model, self.dataset) = load_check(model, dataset)
@@ -71,7 +71,7 @@ class DeepFace:
         self.__loaded = True
 
     def save(self, path):
-        Saver(self.__recorder, path)
+        Saver(self.recorder, path)
 
 
 class DeepFaceGenerator(DeepFace):
@@ -79,7 +79,7 @@ class DeepFaceGenerator(DeepFace):
     module = None
     __Evaluator = None
 
-    __recorder = ()
+    recorder = ()
 
     def __init__(self, m, e):
         self.module = m
@@ -98,7 +98,7 @@ class DeepFaceModifier(DeepFace):
     __loaded = False
     module = None
     __Evaluator = None
-    __recorder = ()
+    recorder = ()
 
     def __init__(self, m, e):
         self.module = m
