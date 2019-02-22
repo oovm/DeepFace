@@ -7,9 +7,9 @@
 ```py
 import DeepFace
 
-g = DeepFace.Generator()
-g.bind('MXNet', 'GPU')
-g.load().new().save()
+f = DeepFace.Generator()
+f.bind('MXNet', 'GPU')
+f.load().new().save()
 ```
 
 
@@ -19,11 +19,11 @@ g.load().new().save()
 ```py
 import DeepFace
 
-g = DeepFace.Modifier()
-g.bind('PyTorch', 'CPU')
-g.load('StarGAN', 'CelebA')
-g.infer(img, args)
-g.save(path='./imgs/', prefix='mod_')
+f = DeepFace.Modifier()
+f.bind('PyTorch', 'CPU')
+f.load('StarGAN', 'CelebA')
+f.infer(img, args)
+f.save(path='./imgs/', prefix='mod_')
 ```
 
 
