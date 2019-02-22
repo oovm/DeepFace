@@ -17,3 +17,20 @@ remote = {
         }
     }
 }
+
+
+class ProgressiveGan:
+    '''
+    infer(n)
+
+    '''
+
+    def __init__(self, dataset, ctx):
+        self.dataset = dataset
+        self.ctx = ctx
+
+    def phrase(self):
+        pass
+
+    def infer(self, *args):
+        self.phrase(args)
